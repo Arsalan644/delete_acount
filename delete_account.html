@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Delete Your Account</title>
+    <meta
+      name="description"
+      content="Verify identity to delete your account."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #000000;
+        --panel: #0f1113;
+        --muted: #9aa0a6;
+        --accent: #9f56fe;
+        --danger: #ff4d4f;
+        --glass: rgba(255, 255, 255, 0.03);
+        --radius: 12px;
+        --maxWidth: 820px;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: linear-gradient(180deg, #000 0%, #070707 65%);
+        color: #e9eef6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 36px;
+      }
+      header.site-header {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        padding: 10px 28px;
+        background: transparent;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .logo svg {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: var(--radius);
+        padding: 25px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        box-shadow: 0 18px 60px rgba(2, 6, 23, 0.6);
+      }
+      .left {
+        padding: 6px 2px;
+      }
+      h1 {
+        font-size: 28px;
+        /* margin: 9px 0 6px; */
+        margin-top: 0px;
+        padding-bottom: 8px;
+        text-align: center;
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 0 0 14px;
+      }
+      .steps {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .step {
+        padding: 8px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .right {
+        background: transparent;
+        padding: 8px;
+      }
+      label {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      input[type="email"] {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.035);
+        background: transparent;
+        color: inherit;
+        font-size: 15px;
+      }
+      input[type="email"]:focus {
+        outline: 2px solid rgba(255, 209, 102, 0.12);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .btn {
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #9f56fe, #d5b5ff);
+        color: #071017;
+        box-shadow: 0 10px 30px rgba(159, 86, 254, 0.12);
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+      }
+      .btn.danger {
+        background: linear-gradient(90deg, var(--danger), #ff6b6b);
+        color: white;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .account-preview {
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+
+      .confirm-area {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .confirm-area.active {
+        display: flex;
+      }
+
+      .success {
+        display: none;
+        padding: 36px;
+        text-align: center;
+      }
+      .success.active {
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .card {
+          grid-template-columns: 1fr;
+        }
+        .wrap {
+          margin-top: 84px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo">
+        <svg
+          viewBox="0 0 64 64"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="g2" x1="0" x2="1">
+              <stop offset="0" stop-color="#9F56FE" />
+              <stop offset="1" stop-color="#D5B5FF" />
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="12" fill="url(#g2)" />
+          <path d="M20 44L32 20L44 44H20Z" fill="#071017" />
+        </svg>
+        <div style="line-height: 1; font-size: 15px">GENWALLS</div>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="card" role="region" aria-labelledby="title">
+        <div class="left">
+          <h1 id="title">Delete Your Account</h1>
+          <p class="lead">
+            We're sorry to see you go. Verify your identity to permanently
+            delete your account.
+          </p>
+          <div class="steps">
+            <div class="step">1 • Find account</div>
+            <div class="step">2 • Confirm</div>
+          </div>
+          <p class="muted" style="margin-top: 18px">
+            Deleting removes your profile, settings and stored data. Some
+            backups may persist for a short time.
+          </p>
+        </div>
+
+        <aside class="right" aria-labelledby="formTitle">
+          <h3 id="formTitle" style="margin: 0 0 10px">Confirm identity</h3>
+          <form id="deleteForm" novalidate>
+            <div class="field">
+              <label for="email">Email address</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                value="name@example.com"
+                required
+                autocomplete="email"
+              />
+              <div class="muted">
+                We'll send a verification link or code to this email.
+              </div>
+            </div>
+
+            <div id="step2" class="confirm-area" aria-hidden="true">
+              <div class="account-preview">
+                <strong>Account</strong>
+                <div id="emailPreview" class="muted" style="margin-top: 6px">
+                  name@example.com
+                </div>
+              </div>
+              <label class="muted" style="margin-top: 6px"
+                >Please confirm</label
+              >
+              <div style="display: flex; align-items: center; gap: 10px">
+                <input
+                  id="confirmCheck"
+                  type="checkbox"
+                  aria-label="I confirm deletion"
+                />
+                <div class="muted">
+                  I understand this action is permanent and cannot be undone.
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="button" id="continueBtn" class="btn primary">
+                Continue
+              </button>
+              <button
+                type="button"
+                id="backBtn"
+                class="btn ghost"
+                style="display: none"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                id="deleteBtn"
+                class="btn danger"
+                disabled
+                style="margin-left: auto"
+              >
+                Delete
+              </button>
+            </div>
+          </form>
+
+          <div class="success" id="successBox" role="status" aria-live="polite">
+            <h3 style="margin: 0 0 8px; color: var(--accent)">
+              Account Deleted
+            </h3>
+            <p class="muted">
+              Your account <strong id="deletedEmail"></strong> has been
+              scheduled for deletion. Contact support within 24 hours to cancel.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      const continueBtn = document.getElementById("continueBtn");
+      const backBtn = document.getElementById("backBtn");
+      const emailEl = document.getElementById("email");
+      const emailPreview = document.getElementById("emailPreview");
+      const confirmCheck = document.getElementById("confirmCheck");
+      const deleteBtn = document.getElementById("deleteBtn");
+      const step2 = document.getElementById("step2");
+      const successBox = document.getElementById("successBox");
+      const deletedEmail = document.getElementById("deletedEmail");
+
+      function validEmail(v) {
+        return v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      }
+
+      continueBtn.addEventListener("click", () => {
+        const email = (emailEl.value || "").trim();
+        if (!validEmail(email)) {
+          emailEl.focus();
+          emailEl.style.outline = "2px solid rgba(255,77,79,0.14)";
+          setTimeout(() => (emailEl.style.outline = "none"), 1400);
+          return;
+        }
+        emailPreview.textContent = email;
+        step2.classList.add("active");
+        step2.setAttribute("aria-hidden", "false");
+        backBtn.style.display = "";
+        continueBtn.style.display = "none";
+        deleteBtn.disabled = true;
+      });
+
+      backBtn.addEventListener("click", () => {
+        step2.classList.remove("active");
+        step2.setAttribute("aria-hidden", "true");
+        backBtn.style.display = "none";
+        continueBtn.style.display = "";
+      });
+
+      confirmCheck &&
+        confirmCheck.addEventListener("change", () => {
+          deleteBtn.disabled = !confirmCheck.checked;
+        });
+
+      document
+        .getElementById("deleteForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!confirmCheck.checked) return;
+          if (
+            !confirm("Permanently delete this account? This cannot be undone.")
+          )
+            return;
+
+          const email = (emailEl.value || "").trim();
+          deletedEmail.textContent = email;
+
+          try {
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = "Deleting...";
+
+            const res = await fetch(
+              "http://localhost:5000/api/delete-account",
+              {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+              }
+            );
+
+            const data = await res.json();
+            if (!data.success) {
+              alert(data.message || "Failed to delete account");
+              deleteBtn.disabled = false;
+              deleteBtn.textContent = "Delete";
+              return;
+            }
+
+            successBox.classList.add("active");
+            document
+              .querySelectorAll(
+                "#deleteForm .field, #deleteForm .actions, #step2"
+              )
+              .forEach((n) => (n.style.display = "none"));
+          } catch (err) {
+            alert("Server error. Try again later.");
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = "Delete";
+          }
+        });
+    </script>
+  </body>
+</html>
